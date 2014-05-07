@@ -2,3 +2,7 @@
 /.gradle/
 /.VERSION.swp
 /build/
+
+/.idea/
+/classes/
+/springboot-soap-ws.iml
