@@ -34,8 +34,8 @@ class HolidayRequestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    def getHolidayRequest(@PathVariable id){
-        HolidayRequest hr = requests.find{ it.id == id }
+    def getHolidayRequest(@PathVariable Long id){
+        HolidayRequest hr = requests.find{ it.id == id } as HolidayRequest
         if(null == hr){ //not found
             throw new RuntimeException("No resource found with id " + id);
         }
@@ -44,8 +44,8 @@ class HolidayRequestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    def deleteHolidayRequest(@PathVariable id){
-        HolidayRequest hr = requests.find{ it.id == id }
+    def deleteHolidayRequest(@PathVariable Long id){
+        HolidayRequest hr = requests.find{ it.id == id } as HolidayRequest
         if(null == hr){ //not found
             throw new RuntimeException("No resource found with id " + id);
         }
@@ -56,7 +56,7 @@ class HolidayRequestController {
     @RequestMapping(method = RequestMethod.PUT)
     def updateHolidayRequest(@RequestBody HolidayRequest hr){
 
-        requests.remove(find(hr.id))
+        requests.removeAll{ it.id == hr.id }
         requests.add(hr)
         return [request: hr]
 
