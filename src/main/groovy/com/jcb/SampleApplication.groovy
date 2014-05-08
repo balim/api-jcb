@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package sample
+package com.jcb
 
+import com.jcb.domain.HolidayRequest
+import com.jcb.repository.HolidayRequestRepository
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
@@ -36,7 +37,15 @@ class SampleApplication {
 	}
 
 	static void main(String[] args) throws Exception {
-		SpringApplication.run(SampleApplication.class, args)
+        def context = SpringApplication.run(SampleApplication.class, args)
+        def repository = context.getBean(HolidayRequestRepository.class)
+
+        repository.save(new HolidayRequest(employeeName: "Kelly Smith", employeeId: 123, startDate: new Date()-15, endDate: new Date() - 7))
+        repository.save(new HolidayRequest(employeeName: "Bebo Norman", employeeId: 234, startDate: new Date()-9, endDate: new Date() - 6))
+        repository.save(new HolidayRequest(employeeName: "Little Snitch", employeeId: 345, startDate: new Date()+15, endDate: new Date() + 18))
+        repository.save(new HolidayRequest(employeeName: "Jay Leno", employeeId: 456, startDate: new Date(), endDate: new Date() + 7))
+
+        assert repository.count() > 0
 	}
 
 }
