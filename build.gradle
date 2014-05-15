@@ -42,3 +42,24 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
+
+task runBundled(type:Exec){
+    commandLine "java -jar build/libs/api-service-1.0.0.jar".split(' ')
+}
+
+task copyToLib << {
+    copy {
+        from configurations.runtime.copy().setTransitive(false)
+        into "$buildDir/libs"
+        rename { name ->
+            def artifacts = configurations.runtime.resolvedConfiguration.resolvedArtifacts
+            def artifact = artifacts.find { it.file.name == name }
+            "${artifact.name}.${artifact.extension}"
+        }
+    }
+}
+
+runBundled.dependsOn build
+build.mustRunAfter clean
+
+task stage(dependsOn: ['clean', 'build', 'copyToLib'])
