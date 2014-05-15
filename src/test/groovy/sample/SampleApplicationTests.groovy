@@ -59,6 +59,7 @@ import org.springframework.web.client.RestTemplate
  * 
  * @author Dave Syer
  */
+ @org.junit.Ignore
 public class SampleApplicationTests {
 
 	private static ConfigurableApplicationContext context
